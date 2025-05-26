@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Messi Museum</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" type="image/x-icon" href="Barcelona.png">
+  <style>
+/* Reset and Base */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('Messi(1).webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+  color: #a50044; /* changed text color to deep pink */
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Custom */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#004d98, #a50044);
+  border-radius: 10px;
+}
+
+/* Header */
+header {
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('Messi(1).webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 3rem;
+
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px #004d98; }
+  to { text-shadow: 0 0 15px #a50044, 0 0 20px #a50044; }
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+  font-size: 1.1rem;
+  color: #a50044; /* ensure link text color */
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: #004d98;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Section */
+.section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: auto;
+  border-bottom: 2px solid #004d98;
+}
+
+.section h2 {
+  font-size: 2.5rem;
+  color: #a50044;
+  text-align: center;
+  margin-bottom: 40px;
+  text-shadow: 0 0 10px #a50044;
+}
+
+/* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s;
+  border: 2px solid #a50044;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #a50044;
+}
+
+/* Video Section */
+.video-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.video-container iframe {
+  width: 100%;
+  max-width: 480px;
+  height: 270px;
+  border-radius: 10px;
+  border: 2px solid #a50044;
+  box-shadow: 0 0 15px #a50044;
+}
+
+/* Timeline */
+.timeline {
+  color: #004d98;
+  border-left: 4px solid #a50044;
+  padding-left: 20px;
+  margin-top: 30px;
+}
+
+.event {
+  margin-bottom: 25px;
+  position: relative;
+  padding-left: 15px;
+}
+
+.event::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  background: #a50044;
+  border-radius: 50%;
+  position: absolute;
+  left: -10px;
+  top: 5px;
+}
+
+.event strong {
+  color: #a50044;
+}
+
+/* Countdown */
+.next-class-time {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.time-unit {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  color: #a50044;
+}
+
+.time-label {
+  text-align: center;
+  font-size: 1rem;
+  color: #004d98;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 5px solid #a50044;
+  border-radius: 10px;
+  animation: zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal.active {
+  display: flex;
+}
+
+/* Buttons */
+button {
+  background-color: #a50044;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  color: #fff; /* changed text color on buttons to white */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #004d98;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #a50044;
+}
+
+/* Footer */
+/* Footer Enhanced */
+
+footer {
+  background: hsla(335, 100%, 32%, 0);
+  box-shadow: inset 0 0 15px #004d98;
+  color: #fff;
+  padding: 40px 20px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.footer-section {
+  flex: 1 1 280px;
+  min-width: 280px;
+}
+
+.footer-section h3 {
+  color: #a50044;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  text-shadow: 0 0 10px #004d98;
+}
+
+.footer-section p {
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.footer-section.links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section.links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section.links ul li a {
+  color: #004d98;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.footer-section.links ul li a:hover {
+  color: #a50044;
+  text-shadow: 0 0 5px #a50044;
+}
+
+/* Newsletter form */
+.footer-section.newsletter form {
+  display: flex;
+  gap: 10px;
+  max-width: 320px;
+}
+
+.footer-section.newsletter input[type="email"] {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: 2px solid #004d98;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+  color: #000;
+}
+
+.footer-section.newsletter input[type="email"]::placeholder {
+  color: #666;
+}
+
+.footer-section.newsletter input[type="email"]:focus {
+  border-color: #a50044;
+  box-shadow: 0 0 10px #a50044;
+}
+
+.footer-section.newsletter button {
+  background-color: #a50044;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1rem;
+}
+
+.footer-section.newsletter button:hover {
+  background-color: #004d98;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #004d98;
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #a50044;
+  letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header h1 { font-size: 2rem; }
+  nav { flex-direction: column; align-items: center; gap: 15px; }
+  .time-unit { font-size: 2rem; }
+}
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🏆 Messi Museum Moments</h1>
+    <nav>
+      <a href="#gallery">Gallery</a>
+      <a href="#videos">Videos</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#countdown">Next Event</a>
+    </nav>
+  </header>
+
+  <section class="section" id="gallery">
+    <h2>Legendary Photos</h2>
+    <div class="gallery">
+      <img src="https://pbs.twimg.com/media/FRh7AqJX0AEVMnJ.jpg:large" alt="Messi 2009" onclick="openModal(this)">
+      <img src="https://www.aljazeera.com/wp-content/uploads/2022/12/SSS10784_1.jpg?resize=1800%2C1800" alt="Messi World Cup" onclick="openModal(this)">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE_Y1F_nklZ1O1stwVjECEpC1nADuxczuALw&s" alt="Messi Barcelona" onclick="openModal(this)">
+    </div>
+  </section>
+
+  <section class="section" id="videos">
+    <h2>🎥 Iconic Videos</h2>
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/ewd2IyxmfG8" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/wJrjbpmc3Wg" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section class="section" id="timeline">
+    <h2>📅 Messi Timeline</h2>
+    <div class="timeline">
+      <div class="event"><strong>2004:</strong> Messi's debut for FC Barcelona</div>
+      <div class="event"><strong>2009:</strong> Wins first Ballon d'Or</div>
+      <div class="event"><strong>2022:</strong> Wins FIFA World Cup with Argentina</div>
+    </div>
+  </section>
+
+  <section class="section" id="countdown">
+    <h2>⏳ Countdown to Next Tribute Event</h2>
+    <div class="next-class-time">
+      <div>
+        <div class="time-unit" id="days">00</div>
+        <div class="time-label">Days</div>
+      </div>
+      <div>
+        <div class="time-unit" id="hours">00</div>
+        <div class="time-label">Hours</div>
+      </div>
+      <div>
+        <div class="time-unit" id="minutes">00</div>
+        <div class="time-label">Minutes</div>
+      </div>
+      <div>
+        <div class="time-unit" id="seconds">00</div>
+        <div class="time-label">Seconds</div>
+      </div>
+    </div>
+    <button onclick="alert('Redirecting to event page...')">Join Now</button>
+  </section>
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-section about">
+      <h3>About Us</h3>
+      <p>We are passionate about delivering quality content and keeping you updated.</p>
+    </div>
+    <div class="footer-section links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Videos</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-section newsletter">
+      <h3>Subscribe to Our Newsletter</h3>
+      <form id="subscribe-form">
+        <input type="email" placeholder="Enter your email" required />
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+  <p class="footer-bottom">© 2025 Your Website. All rights reserved.</p>
+</footer>
+
+
+  <!-- Modal Viewer -->
+  <div class="modal" id="imageModal" onclick="this.classList.remove('active')">
+    <img src="" id="modalImage" alt="Full image"/>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Countdown
+    const targetDate = new Date().getTime() + 5 * 24 * 60 * 60 * 1000;
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const gap = targetDate - now;
+
+      const days = Math.floor(gap / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((gap % (1000 * 60)) / 1000);
+
+      daysEl.textContent = String(days).padStart(2, '0');
+      hoursEl.textContent = String(hours).padStart(2, '0');
+      minutesEl.textContent = String(minutes).padStart(2, '0');
+      secondsEl.textContent = String(seconds).padStart(2, '0');
+    }, 1000);
+
+    // Modal Image
+    function openModal(img) {
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+      modal.classList.add("active");
+      modalImg.src = img.src;
+    }
+  </script>
+
+</body>
+</html>
